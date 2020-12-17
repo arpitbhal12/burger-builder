@@ -12,7 +12,7 @@ const BuildControls = (props) => {
     return (
         <div className={classes.BuildControls}>
             {controls.map((index) => {
-                return <BuildControl key={index.label} type={index.label} />
+                return <BuildControl key={index.label} type={index.label} added={() => props.addIngredients(index.type)}/>
             })}
         </div>
     )
