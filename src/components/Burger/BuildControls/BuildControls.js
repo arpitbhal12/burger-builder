@@ -3,6 +3,7 @@ import BuildControl from './BuildControl/BuildControl';
 import classes from './BuildControls.module.css';
 
 const BuildControls = (props) => {
+	console.log("is purchasable" + props.issPurchasable);
 	const controls = [
 		{ label: 'salad', type: 'salad' },
 		{ label: 'cheese', type: 'cheese' },
@@ -11,6 +12,9 @@ const BuildControls = (props) => {
 	];
 	return (
 		<div className={classes.BuildControls}>
+			<p>
+				Current price: <strong>{props.price.toFixed(2)}</strong>
+			</p>
 			{controls.map((index) => {
 				return (
 					<BuildControl
@@ -22,6 +26,7 @@ const BuildControls = (props) => {
 					/>
 				);
 			})}
+			<button className={classes.OrderButton} disabled={props.isPurchasable === 0}>ORDER BURGER</button>
 		</div>
 	);
 };
