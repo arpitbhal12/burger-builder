@@ -3,7 +3,6 @@ import BuildControl from './BuildControl/BuildControl';
 import classes from './BuildControls.module.css';
 
 const BuildControls = (props) => {
-	console.log('is purchasable' + props.issPurchasable);
 	const controls = [
 		{ label: 'salad', type: 'salad' },
 		{ label: 'cheese', type: 'cheese' },
