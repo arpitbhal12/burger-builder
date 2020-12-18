@@ -3,7 +3,7 @@ import BuildControl from './BuildControl/BuildControl';
 import classes from './BuildControls.module.css';
 
 const BuildControls = (props) => {
-	console.log("is purchasable" + props.issPurchasable);
+	console.log('is purchasable' + props.issPurchasable);
 	const controls = [
 		{ label: 'salad', type: 'salad' },
 		{ label: 'cheese', type: 'cheese' },
@@ -26,7 +26,9 @@ const BuildControls = (props) => {
 					/>
 				);
 			})}
-			<button className={classes.OrderButton} disabled={props.isPurchasable === 0}>ORDER BURGER</button>
+			<button className={classes.OrderButton} disabled={props.isPurchasable === 0} onClick={props.ordered}>
+				ORDER BURGER
+			</button>
 		</div>
 	);
 };
