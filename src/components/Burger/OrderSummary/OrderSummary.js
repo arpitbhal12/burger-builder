@@ -1,6 +1,5 @@
 import React from 'react';
 import Aux from '../../../hoc/Aux';
-import Modal from '../../UI/Modal/Modal';
 
 const OrderSummary = (props) => {
 	const ingredientsSummary = Object.keys(props.ingredients).map((igKey) => {
