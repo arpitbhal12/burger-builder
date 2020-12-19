@@ -6,10 +6,14 @@ import Aux from '../../../hoc/Aux';
 import BackDrop from '../../UI/BackDrop/BackDrop';
 
 const SideDrawer = (props) => {
+    let attachedClasses = [classes.SideDrawer, classes.Close];
+    if (props.show) {
+        attachedClasses = [classes.SideDrawer, classes.Open];
+    }
 	return (
 		<Aux>
 			<BackDrop show={props.show} hideSummary={props.clicked}/>
-			<div className={classes.SideDrawer}>
+			<div className={attachedClasses.join(' ')}>
 				<div className={classes.Logo}>
 					<Logo />
 				</div>
