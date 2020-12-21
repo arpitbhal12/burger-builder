@@ -5,12 +5,11 @@ import BackDrop from '../BackDrop/BackDrop';
 import Aux from '../../../hoc/Aux/Aux';
 
 class Modal extends Component {
-
 	shouldComponentUpdate(nextProps, nextState) {
-		if(nextProps.show !== this.props.show) return true;
+		if (nextProps.show !== this.props.show || this.props.children !== nextProps.children) return true;
 		else return false;
 	}
-	
+
 	render() {
 		return (
 			<Aux>
