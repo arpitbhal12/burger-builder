@@ -8,20 +8,25 @@ const WithErrorHandler = (WrappedComponent, axios) => {
             error: false
         }
 
-        componentDidMount() {
-            axios.interceptors.request.use(req => {
+        componentWillMount() {
+            const reqInterseptor = axios.interceptors.request.use(req => {
                 this.setState({error: null});
                 return req;
             });
-            axios.interceptors.response.use(res => res, error => {
+            const resInterceptior = axios.interceptors.response.use(res => res, error => {
                 this.setState({error: error});
             })
+        }
+
+        componentWillUnmount() {
+            axios.interceptors.request.eject(this.reqInterseptor);
+            axios.interceptors.response.eject(this.resInterseptor);
         }
 
         errorClear = () => {
             this.setState({error: false});
         }
-        
+
 		render() {
             console.log("dsfsf");
 			return (

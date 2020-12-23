@@ -20,7 +20,8 @@ class BurgerBuilder extends Component {
 		price: 0,
 		itemPurchasable: 0,
 		ordering: false,
-		loading: false
+		loading: false,
+		error: false
 	};
 
 	componentDidMount() {
@@ -28,7 +29,9 @@ class BurgerBuilder extends Component {
 			.then((respose) => {
 				this.setState({ ingredients: respose.data });
 			})
-			.catch((error) => console.log('Error occured while fetching ingredients'));
+			.catch((error) => {
+				this.setState({error: true});
+			});
 	}
 
 	purchasable = (totalPrice) => {
@@ -99,7 +102,7 @@ class BurgerBuilder extends Component {
 			...this.state.ingredients
 		};
 		let orderSummary = null;
-		let burger = <Spinner />;
+		let burger = this.state.error ? <p style={{color: "black"}}>Ingredients can't be loaded!</p> : <Spinner />;
 		if (this.state.ingredients) {
 			orderSummary = (
 				<OrderSummary
@@ -113,15 +116,15 @@ class BurgerBuilder extends Component {
 				<Aux>
 					<Burger ingredients={this.state.ingredients} />
 					<BuildControls
-					addIngredients={this.addIngredientHandler}
-					removeIngredients={this.removeIngredientHandler}
-					disabled={disabledInfo}
-					price={this.state.price}
-					isPurchasable={this.state.itemPurchasable}
-					ordered={this.purchaseHandler}
-				/>
+						addIngredients={this.addIngredientHandler}
+						removeIngredients={this.removeIngredientHandler}
+						disabled={disabledInfo}
+						price={this.state.price}
+						isPurchasable={this.state.itemPurchasable}
+						ordered={this.purchaseHandler}
+					/>
 				</Aux>
-			)
+			);
 		}
 		for (let key in disabledInfo) {
 			disabledInfo[key] = this.state.ingredients[key] <= 0;
@@ -131,10 +134,11 @@ class BurgerBuilder extends Component {
 		}
 		return (
 			<Aux>
+				{burger}
 				<Modal show={this.state.ordering} modalClosed={this.removeOrderSummaryhandler}>
 					{orderSummary}
 				</Modal>
-				{burger}
+				
 			</Aux>
 		);
 	}
