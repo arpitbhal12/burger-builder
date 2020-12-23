@@ -21,6 +21,7 @@ const WithErrorHandler = (WrappedComponent, axios) => {
         errorClear = () => {
             this.setState({error: false});
         }
+        
 		render() {
             console.log("dsfsf");
 			return (
