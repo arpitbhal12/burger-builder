@@ -63,20 +63,30 @@ class ContactData extends Component {
 		loading: false
 	};
 
+	formChangeHandler(event, key) {
+		let updatedOrderForm = {
+			...this.state.orderForm
+		}
+		let updatedFormElement = {
+			...updatedOrderForm[key]
+		}
+		updatedFormElement.value = event.target.value;
+		updatedOrderForm[key] = updatedFormElement;
+		this.setState({orderForm: updatedOrderForm});
+	}
+
 	orderHandler = (event) => {
 		event.preventDefault();
 		this.setState({ loading: true });
-		const order = {
-			ingredients: this.props.ingredients,
-			price: this.props.price,
-			customer: {
-				name: 'Test User 1',
-				Address: 'India',
-				zipCode: '1234'
-			},
-			payment: 'COD'
-		};
-
+		const formData = {};
+        for (let formElementIdentifier in this.state.orderForm) {
+            formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
+        }
+        const order = {
+            ingredients: this.props.ingredients,
+            price: this.props.price,
+            orderData: formData
+        }
 		Axios.post('/order.json', order)
 			.then((response) => {
 				console.log(response.data);
@@ -85,6 +95,7 @@ class ContactData extends Component {
 			.catch((error) => console.log(error));
 		console.log(this.props.ingredients);
 	};
+
 	render() {
 		const formElementsList = [];
 		for (let key in this.state.orderForm) {
@@ -105,6 +116,7 @@ class ContactData extends Component {
 									elementType={formElement.config.elementType}
 									elementConfig={formElement.config.elementConfig}
 									value={formElement.config.value}
+									changed={(event) => this.formChangeHandler(event,formElement.id)}
 								/>
 							);
 						})}

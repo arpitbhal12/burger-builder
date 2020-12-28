@@ -5,10 +5,10 @@ const Input = (props) => {
 	let inputEle = null;
 	switch (props.elementType) {
 		case 'input':
-			inputEle = <input className= {classes.InputElement} {...props.elementConfig} value={props.value} />;
+			inputEle = <input className= {classes.InputElement} {...props.elementConfig} value={props.value} onChange={props.changed}/>;
 			break;
 		case 'textarea':
-			inputEle = <select className= {classes.InputElement} {...props.elementConfig} value={props.value}/>;
+			inputEle = <select className= {classes.InputElement} {...props.elementConfig} value={props.value} onChange={props.changed}/>;
             break;
             case ( 'select' ):
                 inputEle = (
