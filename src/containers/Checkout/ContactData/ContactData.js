@@ -9,71 +9,126 @@ import Input from '../../../components/UI/Input/Input';
 class ContactData extends Component {
 	state = {
 		orderForm: {
-			name: {
-				elementType: 'input',
-				elementConfig: {
-					type: 'text',
-					placeholder: 'Your Name'
-				},
-				value: ''
-			},
-			street: {
-				elementType: 'input',
-				elementConfig: {
-					type: 'text',
-					placeholder: 'Street'
-				},
-				value: ''
-			},
-			zipCode: {
-				elementType: 'input',
-				elementConfig: {
-					type: 'text',
-					placeholder: 'ZIP Code'
-				},
-				value: ''
-			},
-			country: {
-				elementType: 'input',
-				elementConfig: {
-					type: 'text',
-					placeholder: 'Country'
-				},
-				value: ''
-			},
-			email: {
-				elementType: 'input',
-				elementConfig: {
-					type: 'email',
-					placeholder: 'Your E-Mail'
-				},
-				value: ''
-			},
-			deliveryMethod: {
-				elementType: 'select',
-				elementConfig: {
-					options: [
-						{ value: 'fastest', displayValue: 'Fastest' },
-						{ value: 'cheapest', displayValue: 'Cheapest' }
-					]
-				},
-				value: ''
-			}
-		},
-		loading: false
+            name: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Your Name'
+                },
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false,
+                touched: false
+            },
+            street: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Street'
+                },
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false,
+                touched: false
+            },
+            zipCode: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'ZIP Code'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 5
+                },
+                valid: false,
+                touched: false
+            },
+            country: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Country'
+                },
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false,
+                touched: false
+            },
+            email: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'email',
+                    placeholder: 'Your E-Mail'
+                },
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false,
+                touched: false
+            },
+            deliveryMethod: {
+                elementType: 'select',
+                elementConfig: {
+                    options: [
+                        {value: 'fastest', displayValue: 'Fastest'},
+                        {value: 'cheapest', displayValue: 'Cheapest'}
+                    ]
+                },
+                value: '',
+                valid: true
+            }
+        },
+        formIsValid: false,
+        loading: false
 	};
 
-	formChangeHandler(event, key) {
-		let updatedOrderForm = {
-			...this.state.orderForm
+	checkValidity(value, rules) {
+        let isValid = true;
+        
+        if (rules.required) {
+            isValid = value.trim() !== '' && isValid;
+        }
+
+        if (rules.minLength) {
+            isValid = value.length >= rules.minLength && isValid
+        }
+
+        if (rules.maxLength) {
+            isValid = value.length <= rules.maxLength && isValid
+        }
+
+        return isValid;
+    }
+
+    formChangeHandler = (event, inputIdentifier) => {
+        const updatedOrderForm = {
+            ...this.state.orderForm
+        };
+        const updatedFormElement = { 
+            ...updatedOrderForm[inputIdentifier]
+        };
+        updatedFormElement.value = event.target.value;
+        updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
+        updatedFormElement.touched = true;
+        updatedOrderForm[inputIdentifier] = updatedFormElement;
+        
+        let formIsValid = true;
+        for (let inputIdentifier in updatedOrderForm) {
+            formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
 		}
-		let updatedFormElement = {
-			...updatedOrderForm[key]
-		}
-		updatedFormElement.value = event.target.value;
-		updatedOrderForm[key] = updatedFormElement;
-		this.setState({orderForm: updatedOrderForm});
-	}
+		console.log(formIsValid);
+        this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
+    }
 
 	orderHandler = (event) => {
 		event.preventDefault();
