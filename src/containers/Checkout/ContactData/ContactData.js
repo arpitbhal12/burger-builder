@@ -8,13 +8,61 @@ import Input from '../../../components/UI/Input/Input';
 
 class ContactData extends Component {
 	state = {
-		name: '',
-		email: '',
-		address: {
-			street: '',
-			postal: ''
-		}
+		orderForm: {
+			name: {
+				elementType: 'input',
+				elementConfig: {
+					type: 'text',
+					placeholder: 'Your Name'
+				},
+				value: ''
+			},
+			street: {
+				elementType: 'input',
+				elementConfig: {
+					type: 'text',
+					placeholder: 'Street'
+				},
+				value: ''
+			},
+			zipCode: {
+				elementType: 'input',
+				elementConfig: {
+					type: 'text',
+					placeholder: 'ZIP Code'
+				},
+				value: ''
+			},
+			country: {
+				elementType: 'input',
+				elementConfig: {
+					type: 'text',
+					placeholder: 'Country'
+				},
+				value: ''
+			},
+			email: {
+				elementType: 'input',
+				elementConfig: {
+					type: 'email',
+					placeholder: 'Your E-Mail'
+				},
+				value: ''
+			},
+			deliveryMethod: {
+				elementType: 'select',
+				elementConfig: {
+					options: [
+						{ value: 'fastest', displayValue: 'Fastest' },
+						{ value: 'cheapest', displayValue: 'Cheapest' }
+					]
+				},
+				value: ''
+			}
+		},
+		loading: false
 	};
+
 	orderHandler = (event) => {
 		event.preventDefault();
 		this.setState({ loading: true });
@@ -38,24 +86,28 @@ class ContactData extends Component {
 		console.log(this.props.ingredients);
 	};
 	render() {
+		const formElementsList = [];
+		for (let key in this.state.orderForm) {
+			formElementsList.push({
+				id: key,
+				config: this.state.orderForm[key]
+			});
+		}
 		let form = <Spinner />;
 		if (!this.state.loading) {
 			form = (
 				<Aux>
 					<h3>Enter your details</h3>
 					<form>
-						<Input type="text" name="name" placeholder="Enter your name" />
-						<Input
-							type="text"
-							name="email"
-							placeholder="Enter your E-mail address"
-						/>
-						<Input type="text" name="street" placeholder="Enter your street" />
-						<Input
-							type="text"
-							name="postal"
-							placeholder="Enter your Postal Code"
-						/>
+						{formElementsList.map((formElement) => {
+							return (
+								<Input
+									elementType={formElement.config.elementType}
+									elementConfig={formElement.config.elementConfig}
+									value={formElement.config.value}
+								/>
+							);
+						})}
 						<Button btnType="Success" clicked={this.orderHandler}>
 							Order
 						</Button>
@@ -63,11 +115,7 @@ class ContactData extends Component {
 				</Aux>
 			);
 		}
-		return (
-			<div className={classes.ContactData}>
-				{form}
-			</div>
-		);
+		return <div className={classes.ContactData}>{form}</div>;
 	}
 }
 
