@@ -4,6 +4,7 @@ import classes from './ContactData.module.css';
 import Axios from '../../../axios-orders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Aux from '../../../hoc/Aux/Aux';
+import Input from '../../../components/UI/Input/Input';
 
 class ContactData extends Component {
 	state = {
@@ -43,16 +44,14 @@ class ContactData extends Component {
 				<Aux>
 					<h3>Enter your details</h3>
 					<form>
-						<input className={classes.Input} type="text" name="name" placeholder="Enter your name" />
-						<input
-							className={classes.Input}
+						<Input type="text" name="name" placeholder="Enter your name" />
+						<Input
 							type="text"
 							name="email"
 							placeholder="Enter your E-mail address"
 						/>
-						<input className={classes.Input} type="text" name="street" placeholder="Enter your street" />
-						<input
-							className={classes.Input}
+						<Input type="text" name="street" placeholder="Enter your street" />
+						<Input
 							type="text"
 							name="postal"
 							placeholder="Enter your Postal Code"
