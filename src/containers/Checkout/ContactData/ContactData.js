@@ -83,6 +83,9 @@ class ContactData extends Component {
                         {value: 'fastest', displayValue: 'Fastest'},
                         {value: 'cheapest', displayValue: 'Cheapest'}
                     ]
+				},
+				validation: {
+                    required: false
                 },
                 value: '',
                 valid: true
@@ -117,9 +120,11 @@ class ContactData extends Component {
         const updatedFormElement = { 
             ...updatedOrderForm[inputIdentifier]
         };
-        updatedFormElement.value = event.target.value;
-        updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
-        updatedFormElement.touched = true;
+		updatedFormElement.value = event.target.value;
+		if(inputIdentifier!=='select') {
+			updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
+			updatedFormElement.touched = true;
+		}
         updatedOrderForm[inputIdentifier] = updatedFormElement;
         
         let formIsValid = true;
@@ -172,6 +177,8 @@ class ContactData extends Component {
 									elementConfig={formElement.config.elementConfig}
 									value={formElement.config.value}
 									changed={(event) => this.formChangeHandler(event,formElement.id)}
+									shouldValidate={formElement.config.elementType!=='select'}
+									invalid={!formElement.config.valid}
 								/>
 							);
 						})}
