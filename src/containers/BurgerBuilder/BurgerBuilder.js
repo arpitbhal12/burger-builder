@@ -89,16 +89,13 @@ class BurgerBuilder extends Component {
 		// Axios.post('/order.json', order)
 		// 	.then((response) => this.setState({ loading: false }))
 		// 	.catch((error) => console.log(error));
-		const queryParam = [];
-		for (let i in this.state.ingredients) {
-			queryParam.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
-		}
-		queryParam.push('price=' + this.props.prc);
-		const queryString = queryParam.join('&');
-		this.props.history.push({
-			pathname: '/checkout',
-			search: '?' + queryString
-		});
+		// const queryParam = [];
+		// for (let i in this.state.ingredients) {
+		// 	queryParam.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+		// }
+		// queryParam.push('price=' + this.props.prc);
+		// const queryString = queryParam.join('&');
+		this.props.history.push('/checkout');
 	};
 
 	removeOrderSummaryhandler = () => {

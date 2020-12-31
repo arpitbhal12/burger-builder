@@ -28,7 +28,6 @@ const WithErrorHandler = (WrappedComponent, axios) => {
         }
 
 		render() {
-            console.log("dsfsf");
 			return (
 				<Aux>
 					<Modal show={this.state.error} modalClosed={this.errorClear}>
