@@ -6,6 +6,8 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import Aux from '../../../hoc/Aux/Aux';
 import Input from '../../../components/UI/Input/Input';
 import { connect } from 'react-redux';
+import WithErrorHandler from '../../../hoc/WithErrorHandler/WithErrorHandler';
+import * as actions from '../../../store/actions';
 
 class ContactData extends Component {
 	state = {
@@ -148,11 +150,7 @@ class ContactData extends Component {
 			price: this.props.price,
 			orderData: formData
 		};
-		Axios.post('/order.json', order)
-			.then((response) => {
-				this.setState({ loading: false });
-			})
-			.catch((error) => console.log(error));
+		this.props.onOrderBurger(order);
 	};
 
 	render() {
@@ -164,7 +162,7 @@ class ContactData extends Component {
 			});
 		}
 		let form = <Spinner />;
-		if (!this.state.loading) {
+		if (!this.props.loading) {
 			form = (
 				<Aux>
 					<h3>Enter your details</h3>
@@ -172,7 +170,7 @@ class ContactData extends Component {
 						{formElementsList.map((formElement) => {
 							return (
 								<Input
-                                    key={formElement.id}
+									key={formElement.id}
 									elementType={formElement.config.elementType}
 									elementConfig={formElement.config.elementConfig}
 									value={formElement.config.value}
@@ -197,8 +195,13 @@ class ContactData extends Component {
 const mapStateToProps = (state) => {
 	return {
 		ings: state.ingredients,
-		price: state.totalPrice
+		price: state.totalPrice,
+		loading: state.loading
 	};
 };
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = (dispatch) => {
+	return { onOrderBurger: (orderDtata) => dispatch(actions.purchaseBurger(orderDtata)) };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WithErrorHandler(ContactData, Axios));
